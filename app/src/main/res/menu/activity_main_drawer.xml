@@ -3,33 +3,41 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_feed"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:title="Feed" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_profile"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:title="Profile" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_likes"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="Likes" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_trends"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="Trends" />
+        <item
+            android:id="@+id/nav_nearby"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Whats Near by" />
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_settings"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="Settings" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_email"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="Email" />
+            <item
+                android:id="@+id/nav_license"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Open Source" />
         </menu>
     </item>
 
