@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,59 +27,78 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
+    private static final String MAIN_ACTIVITY = "MainActivity";
     public static final int MEDIA_TYPE_IMAGE = 1;
     private static final String IMAGE_DIRECTORY_NAME = "InstaEvent";
     private Uri fileUri; // file url to store image/video
     private ImageView imgPreview;
 
+    final int navigation_drawer_open = R.string.navigation_drawer_open;
+    final int navigation_drawer_close = R.string.navigation_drawer_close;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        imgPreview = (ImageView) findViewById(R.id.imagePreview);
+        imgPreview = (ImageView) findViewById(R.id.post_image_view);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 captureImage();
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //      .setAction("Action", null).show();
             }
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+
+        setDrawerToggle(toolbar, drawer);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void setDrawerToggle(Toolbar toolbar, DrawerLayout drawer) {
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, navigation_drawer_open, navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        // save file url in bundle as it will be null on scren orientation
-        // changes
-        Log.d("APP_LOG","onSave");
         outState.putParcelable("file_uri", fileUri);
     }
 
-    /*
-     * Here we restore the fileUri again
-     */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        // get the file url
-        Log.d("APP_LOG","onRestore");
         fileUri = savedInstanceState.getParcelable("file_uri");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+
+                Picasso.with(getBaseContext())
+                        .load(fileUri)
+                        .into(MainActivity.this.imgPreview);
+
+            } else if (resultCode == RESULT_CANCELED) {
+                // User cancelled the image capture
+            } else {
+                // Image capture failed, advise user
+            }
+        }
     }
 
     private void captureImage() {
@@ -149,41 +170,49 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    /**
-     * Creating file uri to store image/video
-     */
     public Uri getOutputMediaFileUri(int type) {
-        return Uri.fromFile(getOutputMediaFile(type));
+        File outputMediaFile = getOutputMediaFile(type);
+        Log.d("MainActivity", String.valueOf(outputMediaFile));
+        return Uri.fromFile(outputMediaFile);
     }
 
-    /*
-     * returning image / video
-     */
     private static File getOutputMediaFile(int type) {
 
-        // External sdcard location
+        String externalStorageState = Environment.getExternalStorageState();
+
+        Log.d(MAIN_ACTIVITY, externalStorageState);
+
         File mediaStorageDir = new File(
                 Environment
                         .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                 IMAGE_DIRECTORY_NAME);
 
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create "
+        if (! mediaStorageDir.exists()) {
+
+            boolean createDir = mediaStorageDir.mkdirs();
+
+            Log.d(MAIN_ACTIVITY, String.valueOf(createDir));
+
+            if (! mediaStorageDir.mkdirs()) {
+                Log.d(MAIN_ACTIVITY, "Inside " + String.valueOf(createDir));
+                Log.d(MAIN_ACTIVITY, "Oops! Failed to create "
                         + IMAGE_DIRECTORY_NAME + " directory");
+
                 return null;
             }
         }
 
-        // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                 Locale.getDefault()).format(new Date());
         File mediaFile;
+
         if (type == MEDIA_TYPE_IMAGE) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
                     + "IMG_" + timeStamp + ".jpg");
         } else {
+
+            Log.d(MAIN_ACTIVITY, "Null file");
+
             return null;
         }
         return mediaFile;

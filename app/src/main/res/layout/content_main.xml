@@ -5,10 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="instaevent.abhinandankothari.com.instaevent.MainActivity"
     tools:showIn="@layout/app_bar_main">
@@ -16,21 +12,24 @@
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:layout_gravity="center"
         android:elevation="2dp"
-        card_view:cardCornerRadius="3dp">
-    <ImageView
-        android:id="@+id/imagePreview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        card_view:cardCornerRadius="4dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/post_image_view"
+            android:src="@mipmap/image_preview"/>
 
         <TextView
             android:id="@+id/info_text"
-            android:layout_gravity="bottom"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:text="test" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Smith" />
 
     </android.support.v7.widget.CardView>
+
 </RelativeLayout>
