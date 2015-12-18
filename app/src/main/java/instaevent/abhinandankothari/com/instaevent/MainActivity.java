@@ -1,6 +1,8 @@
 package instaevent.abhinandankothari.com.instaevent;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,13 +14,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -34,6 +33,10 @@ public class MainActivity extends AppCompatActivity
     private static final String IMAGE_DIRECTORY_NAME = "InstaEvent";
     private Uri fileUri; // file url to store image/video
     private ImageView imgPreview;
+    private FloatingActionButton fab;
+    private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
 
     final int navigation_drawer_open = R.string.navigation_drawer_open;
     final int navigation_drawer_close = R.string.navigation_drawer_close;
@@ -43,10 +46,16 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         imgPreview = (ImageView) findViewById(R.id.post_image_view);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        setDrawerToggle(toolbar, drawer);
+        setSupportActionBar(toolbar);
+
+        navigationView.setNavigationItemSelectedListener(this);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,13 +63,6 @@ public class MainActivity extends AppCompatActivity
                 captureImage();
             }
         });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        setDrawerToggle(toolbar, drawer);
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void setDrawerToggle(Toolbar toolbar, DrawerLayout drawer) {
@@ -89,9 +91,10 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
 
-                Picasso.with(getBaseContext())
-                        .load(fileUri)
-                        .into(MainActivity.this.imgPreview);
+                Bitmap bitmap = BitmapFactory.decodeFile(fileUri.getPath());
+                Bitmap finalBitmap = ImageHelper.resizeBitmap(bitmap, 800, 800, false);
+
+                imgPreview.setImageBitmap(finalBitmap);
 
             } else if (resultCode == RESULT_CANCELED) {
                 // User cancelled the image capture
@@ -101,16 +104,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
     private void captureImage() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        Log.d("APP_LOG","onCapture");
         fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        // start the image capture Intent
-        Log.d("APP_LOG","onCaptureBeforeActivity Start");
         startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
-
     }
 
     @Override
@@ -125,19 +124,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -148,7 +142,6 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
 //        if (id == R.id.nav_camera) {
@@ -171,33 +164,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     public Uri getOutputMediaFileUri(int type) {
-        File outputMediaFile = getOutputMediaFile(type);
-        Log.d("MainActivity", String.valueOf(outputMediaFile));
-        return Uri.fromFile(outputMediaFile);
+        return Uri.fromFile(getOutputMediaFile(type));
     }
 
     private static File getOutputMediaFile(int type) {
-
-        String externalStorageState = Environment.getExternalStorageState();
-
-        Log.d(MAIN_ACTIVITY, externalStorageState);
-
         File mediaStorageDir = new File(
                 Environment
                         .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                 IMAGE_DIRECTORY_NAME);
 
-        if (! mediaStorageDir.exists()) {
-
-            boolean createDir = mediaStorageDir.mkdirs();
-
-            Log.d(MAIN_ACTIVITY, String.valueOf(createDir));
-
-            if (! mediaStorageDir.mkdirs()) {
-                Log.d(MAIN_ACTIVITY, "Inside " + String.valueOf(createDir));
-                Log.d(MAIN_ACTIVITY, "Oops! Failed to create "
-                        + IMAGE_DIRECTORY_NAME + " directory");
-
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
                 return null;
             }
         }
@@ -208,11 +185,8 @@ public class MainActivity extends AppCompatActivity
 
         if (type == MEDIA_TYPE_IMAGE) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
-                    + "IMG_" + timeStamp + ".jpg");
+                    + "IMG_" + timeStamp + ".png");
         } else {
-
-            Log.d(MAIN_ACTIVITY, "Null file");
-
             return null;
         }
         return mediaFile;
