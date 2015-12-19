@@ -11,10 +11,28 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    def propFile = file("${System.properties['user.home']}/.keys/gradle.properties")
+    def props = new Properties()
+    if (propFile.exists()) {
+        propFile.withInputStream {
+            stream -> props.load(stream)
+        }
+    }
+    signingConfigs {
+        release {
+            storeFile file("${System.properties['user.home']}/.keys/bootcamp.jks")
+            storePassword props.getProperty('KEYSTORE_PASS')
+            keyAlias "instaevent.abhinandankothari.com.instaevent"
+            keyPassword props.getProperty('INSTAEVENT_PASS')
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
@@ -29,4 +47,6 @@ dependencies {
     compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.parse:parse-android:1.+'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.cloudinary:cloudinary-android:1.2.2'
+    compile 'com.cloudinary:cloudinary-core:1.2.2'
 }

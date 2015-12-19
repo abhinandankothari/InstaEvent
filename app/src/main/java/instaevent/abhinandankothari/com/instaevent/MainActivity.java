@@ -1,8 +1,6 @@
 package instaevent.abhinandankothari.com.instaevent;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,7 +29,8 @@ public class MainActivity extends AppCompatActivity
     private static final String MAIN_ACTIVITY = "MainActivity";
     public static final int MEDIA_TYPE_IMAGE = 1;
     private static final String IMAGE_DIRECTORY_NAME = "InstaEvent";
-    private Uri fileUri; // file url to store image/video
+    public static final String URL = "url";
+    public Uri fileUri; // file url to store image/video
     private ImageView imgPreview;
     private FloatingActionButton fab;
     private Toolbar toolbar;
@@ -52,8 +51,8 @@ public class MainActivity extends AppCompatActivity
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
-        setDrawerToggle(toolbar, drawer);
         setSupportActionBar(toolbar);
+        setDrawerToggle(toolbar, drawer);
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -90,11 +89,9 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-
-                Bitmap bitmap = BitmapFactory.decodeFile(fileUri.getPath());
-                Bitmap finalBitmap = ImageHelper.resizeBitmap(bitmap, 800, 800, false);
-
-                imgPreview.setImageBitmap(finalBitmap);
+                Intent intent = new Intent(this, ImageActivity.class);
+                intent.putExtra(URL, fileUri.getPath());
+                startActivity(intent);
 
             } else if (resultCode == RESULT_CANCELED) {
                 // User cancelled the image capture
