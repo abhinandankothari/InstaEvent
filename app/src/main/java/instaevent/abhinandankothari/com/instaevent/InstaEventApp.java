@@ -13,7 +13,6 @@ public class InstaEventApp extends android.app.Application {
     public void onCreate() {
         super.onCreate();
 
-
         Parse.enableLocalDatastore(this);
 
         Parse.initialize(this);
