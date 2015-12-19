@@ -15,3 +15,17 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+
+-keep class * extends android.app.Application {
+   *;
+}
+
+# parse
+-allowaccessmodification
+-dontwarn com.squareup.**
+-keep class com.squareup.** { *; }
+-dontwarn com.parse.ParseOkHttpClient**
+-keep class com.parse.ParseOkHttpClient** { *; }
+-dontwarn android.net.SSLCertificateSocketFactory
+-dontwarn android.app.Notification
