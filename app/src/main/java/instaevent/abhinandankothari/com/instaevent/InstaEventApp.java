@@ -16,11 +16,9 @@ public class InstaEventApp extends android.app.Application {
         Parse.enableLocalDatastore(this);
 
         Parse.initialize(this);
-
-        if (ParseUser.getCurrentUser() == null){
+        if (ParseUser.getCurrentUser() == null) {
             ParseUser.logInInBackground("vjdhama", "test");
         }
-
         Picasso picasso = new Picasso.Builder(this)
                 .loggingEnabled(true)
                 .indicatorsEnabled(true)
@@ -28,7 +26,5 @@ public class InstaEventApp extends android.app.Application {
                 .build();
 
         Picasso.setSingletonInstance(picasso);
-
     }
-
 }

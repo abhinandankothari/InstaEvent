@@ -17,8 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,7 +29,8 @@ public class MainActivity extends AppCompatActivity
     private static final String MAIN_ACTIVITY = "MainActivity";
     public static final int MEDIA_TYPE_IMAGE = 1;
     private static final String IMAGE_DIRECTORY_NAME = "InstaEvent";
-    private Uri fileUri; // file url to store image/video
+    public static final String URL = "url";
+    public Uri fileUri; // file url to store image/video
     private ImageView imgPreview;
     private FloatingActionButton fab;
     private Toolbar toolbar;
@@ -51,8 +50,8 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
-        setDrawerToggle(toolbar, drawer);
         setSupportActionBar(toolbar);
+        setDrawerToggle(toolbar, drawer);
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -90,9 +89,9 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
 
-                Glide.with(this)
-                        .load(fileUri)
-                        .into(imgPreview);
+                Intent intent = new Intent(this, ImageActivity.class);
+                intent.putExtra(URL, fileUri.getPath());
+                startActivity(intent);
 
             } else if (resultCode == RESULT_CANCELED) {
                 // User cancelled the image capture
