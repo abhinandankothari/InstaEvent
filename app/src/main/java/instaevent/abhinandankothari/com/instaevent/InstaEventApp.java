@@ -12,6 +12,9 @@ public class InstaEventApp extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Parse.enableLocalDatastore(this);
+
         Parse.initialize(this);
         if (ParseUser.getCurrentUser() == null) {
             ParseUser.logInInBackground("vjdhama", "test");

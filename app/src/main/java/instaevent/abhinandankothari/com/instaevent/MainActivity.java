@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity
     private ImageView imgPreview;
     private FloatingActionButton fab;
     private Toolbar toolbar;
-    private DrawerLayout drawer;
-    private NavigationView navigationView;
 
     final int navigation_drawer_open = R.string.navigation_drawer_open;
     final int navigation_drawer_close = R.string.navigation_drawer_close;
@@ -48,8 +46,9 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         imgPreview = (ImageView) findViewById(R.id.post_image_view);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         setSupportActionBar(toolbar);
         setDrawerToggle(toolbar, drawer);
@@ -89,6 +88,7 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
+
                 Intent intent = new Intent(this, ImageActivity.class);
                 intent.putExtra(URL, fileUri.getPath());
                 startActivity(intent);
@@ -144,16 +144,6 @@ public class MainActivity extends AppCompatActivity
 //        if (id == R.id.nav_camera) {
 //            // Handle the camera action
 //        } else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

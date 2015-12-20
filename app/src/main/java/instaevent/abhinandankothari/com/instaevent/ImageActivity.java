@@ -1,8 +1,6 @@
 package instaevent.abhinandankothari.com.instaevent;
 
 import android.app.ProgressDialog;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.android.Utils;
 import com.cloudinary.utils.ObjectUtils;
@@ -26,11 +25,14 @@ public class ImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
         final String imageUrl = getIntent().getStringExtra(MainActivity.URL);
-        Bitmap bitmap = BitmapFactory.decodeFile(imageUrl);
-        Bitmap finalBitmap = ImageHelper.resizeBitmap(bitmap, 800, 800, false);
+
         ImageView preview = (ImageView) findViewById(R.id.post_image_preview);
+
+        Glide.with(this)
+                .load(imageUrl)
+                .into(preview);
+
         Button button = (Button) findViewById(R.id.upload_button);
-        preview.setImageBitmap(finalBitmap);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,6 +48,7 @@ public class ImageActivity extends AppCompatActivity {
                             cloudinary.uploader().upload(new File(url), ObjectUtils.emptyMap());
                             ParseObject image = new ParseObject("Post");
                             //  image.put("image", new ParseFile(new File(url)));
+                            Log.d("Url", url);
                             image.put("imageUrl", url);
                             image.save();
                         } catch (Exception e) {
