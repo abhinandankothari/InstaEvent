@@ -15,6 +15,8 @@ import com.parse.ParseFile;
 
 import java.io.File;
 
+import instaevent.abhinandankothari.com.instaevent.models.Post;
+
 
 public class ImageActivity extends AppCompatActivity {
 

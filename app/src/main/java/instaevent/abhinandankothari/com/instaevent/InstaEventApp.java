@@ -6,6 +6,8 @@ import com.parse.ParseUser;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.Picasso;
 
+import instaevent.abhinandankothari.com.instaevent.models.Post;
+
 /**
  * Created by vjdhama on 16/12/15.
  */

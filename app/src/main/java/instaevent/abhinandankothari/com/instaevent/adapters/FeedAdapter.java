@@ -1,4 +1,4 @@
-package instaevent.abhinandankothari.com.instaevent;
+package instaevent.abhinandankothari.com.instaevent.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +11,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+
+import instaevent.abhinandankothari.com.instaevent.models.Post;
+import instaevent.abhinandankothari.com.instaevent.R;
 
 /**
  * Created by vjdhama on 21/12/15.
