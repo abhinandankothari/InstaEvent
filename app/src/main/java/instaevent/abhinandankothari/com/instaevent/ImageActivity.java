@@ -7,24 +7,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.cloudinary.Cloudinary;
-import com.cloudinary.android.Utils;
-import com.cloudinary.utils.ObjectUtils;
-import com.parse.ParseObject;
+import com.parse.ParseFile;
 
 import java.io.File;
 
 
 public class ImageActivity extends AppCompatActivity {
 
+    private EditText description;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
+
         final String imageUrl = getIntent().getStringExtra(MainActivity.URL);
+
+        description = (EditText) findViewById(R.id.editDescription);
 
         ImageView preview = (ImageView) findViewById(R.id.post_image_preview);
 
@@ -37,20 +40,17 @@ public class ImageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final ProgressDialog progressDialog = ProgressDialog.show(ImageActivity.this, null, "Uploading", true, false);
-
+                String desc = description.getText().toString();
                 new AsyncTask<String, Void, String>() {
 
                     @Override
                     protected String doInBackground(String... params) {
-                        Cloudinary cloudinary = new Cloudinary(Utils.cloudinaryUrlFromContext(ImageActivity.this));
                         try {
                             String url = params[0];
-                            cloudinary.uploader().upload(new File(url), ObjectUtils.emptyMap());
-                            ParseObject image = new ParseObject("Post");
-                            //  image.put("image", new ParseFile(new File(url)));
-                            Log.d("Url", url);
-                            image.put("imageUrl", url);
-                            image.save();
+                            Post post = new Post();
+                            post.setImage(new ParseFile(new File(url)));
+                            post.setDescription(params[1]);
+                            post.save();
                         } catch (Exception e) {
                             Log.e("APP_LOG", "Error while uploading image", e);
                         }
@@ -63,7 +63,7 @@ public class ImageActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         finish();
                     }
-                }.execute(imageUrl);
+                }.execute(imageUrl,desc);
             }
         });
     }

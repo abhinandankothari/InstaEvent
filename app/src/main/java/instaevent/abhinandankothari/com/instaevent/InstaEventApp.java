@@ -1,6 +1,7 @@
 package instaevent.abhinandankothari.com.instaevent;
 
 import com.parse.Parse;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.Picasso;
@@ -13,12 +14,13 @@ public class InstaEventApp extends android.app.Application {
     public void onCreate() {
         super.onCreate();
 
-        Parse.enableLocalDatastore(this);
+        ParseObject.registerSubclass(Post.class);
 
         Parse.initialize(this);
         if (ParseUser.getCurrentUser() == null) {
             ParseUser.logInInBackground("vjdhama", "test");
         }
+
         Picasso picasso = new Picasso.Builder(this)
                 .loggingEnabled(true)
                 .indicatorsEnabled(true)

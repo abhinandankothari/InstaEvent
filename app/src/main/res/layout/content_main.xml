@@ -1,35 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v7.widget.RecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="instaevent.abhinandankothari.com.instaevent.MainActivity"
-    tools:showIn="@layout/app_bar_main">
+    android:id="@+id/recycler_view"
+    android:scrollbars="vertical">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_gravity="center"
-        android:elevation="2dp"
-        card_view:cardCornerRadius="4dp">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/post_image_view"
-            android:src="@mipmap/image_preview"/>
-
-        <TextView
-            android:id="@+id/info_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Smith" />
-
-    </android.support.v7.widget.CardView>
-
-</RelativeLayout>
+</android.support.v7.widget.RecyclerView>

@@ -11,15 +11,20 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+
+import com.parse.ParseQueryAdapter;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
@@ -30,10 +35,14 @@ public class MainActivity extends AppCompatActivity
     public static final int MEDIA_TYPE_IMAGE = 1;
     private static final String IMAGE_DIRECTORY_NAME = "InstaEvent";
     public static final String URL = "url";
-    public Uri fileUri; // file url to store image/video
-    private ImageView imgPreview;
+    public Uri fileUri;
     private FloatingActionButton fab;
     private Toolbar toolbar;
+    private FeedAdapter mAdapter;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+
 
     final int navigation_drawer_open = R.string.navigation_drawer_open;
     final int navigation_drawer_close = R.string.navigation_drawer_close;
@@ -44,8 +53,18 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        imgPreview = (ImageView) findViewById(R.id.post_image_view);
         fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        mAdapter = new FeedAdapter(this);
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        mRecyclerView.setHasFixedSize(true);
+
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mRecyclerView.setAdapter(mAdapter);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -61,6 +80,26 @@ public class MainActivity extends AppCompatActivity
                 captureImage();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Post>() {
+            @Override
+            public void onLoading() {
+                Log.d("APP_LOG", "Loading query");
+            }
+
+            @Override
+            public void onLoaded(List<Post> objects, Exception e) {
+                if (e == null && objects != null)
+                    Log.d("APP_LOG", "Query loaded " + objects.size());
+                else
+                    Log.e("APP_LOG", "Error while fetching query", e);
+            }
+        });
+        mAdapter.loadObjects();
     }
 
     private void setDrawerToggle(Toolbar toolbar, DrawerLayout drawer) {
