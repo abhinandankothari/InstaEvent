@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.parse.ParseQueryAdapter;
 
@@ -26,6 +27,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import instaevent.abhinandankothari.com.instaevent.adapters.FeedAdapter;
+import instaevent.abhinandankothari.com.instaevent.models.Post;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -56,12 +60,10 @@ public class MainActivity extends AppCompatActivity
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
         mAdapter = new FeedAdapter(this);
+        mLayoutManager = new LinearLayoutManager(this);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
         mRecyclerView.setHasFixedSize(true);
-
-        mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mRecyclerView.setAdapter(mAdapter);
@@ -133,9 +135,9 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
 
             } else if (resultCode == RESULT_CANCELED) {
-                // User cancelled the image capture
+                Toast.makeText(this, "You cancelled camera capture", Toast.LENGTH_SHORT);
             } else {
-                // Image capture failed, advise user
+                Toast.makeText(this, "Image camera capture failed", Toast.LENGTH_SHORT);
             }
         }
     }

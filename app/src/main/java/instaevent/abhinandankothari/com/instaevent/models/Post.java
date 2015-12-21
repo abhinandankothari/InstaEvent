@@ -1,4 +1,4 @@
-package instaevent.abhinandankothari.com.instaevent;
+package instaevent.abhinandankothari.com.instaevent.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
