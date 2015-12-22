@@ -41,6 +41,7 @@ public abstract class ParseQueryRecyclerViewAdapter<VH extends RecyclerView.View
 
     public void loadObjects() {
         this.loadObjects(0, true);
+        this.notifyDataSetChanged();
     }
 
     private void loadObjects(final int page, final boolean shouldClear) {

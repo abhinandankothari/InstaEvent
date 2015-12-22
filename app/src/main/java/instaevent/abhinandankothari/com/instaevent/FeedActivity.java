@@ -11,25 +11,19 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.parse.ParseQueryAdapter;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import instaevent.abhinandankothari.com.instaevent.adapters.FeedAdapter;
-import instaevent.abhinandankothari.com.instaevent.models.Post;
 
 public class FeedActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -58,15 +52,6 @@ public class FeedActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        mAdapter = new FeedAdapter(this);
-        mLayoutManager = new LinearLayoutManager(this);
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mRecyclerView.setAdapter(mAdapter);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
@@ -82,26 +67,12 @@ public class FeedActivity extends AppCompatActivity
                 captureImage();
             }
         });
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Post>() {
-            @Override
-            public void onLoading() {
-                Log.d("APP_LOG", "Loading query");
-            }
-
-            @Override
-            public void onLoaded(List<Post> objects, Exception e) {
-                if (e == null && objects != null)
-                    Log.d("APP_LOG", "Query loaded " + objects.size());
-                else
-                    Log.e("APP_LOG", "Error while fetching query", e);
-            }
-        });
-        mAdapter.loadObjects();
+        FeedFragment feedFragment = new FeedFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_frame, feedFragment)
+                .commit();
     }
 
     private void setDrawerToggle(Toolbar toolbar, DrawerLayout drawer) {
@@ -181,11 +152,15 @@ public class FeedActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
+        ProfileFragment profile = new ProfileFragment();
+        FeedFragment feed = new FeedFragment();
 
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_gallery) {
-
+        if (id == R.id.nav_profile) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, profile).commit();
+        }
+        if (id == R.id.nav_feed) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, feed).commit();
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
