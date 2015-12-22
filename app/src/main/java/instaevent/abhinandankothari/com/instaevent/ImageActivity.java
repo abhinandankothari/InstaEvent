@@ -27,7 +27,7 @@ public class ImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
 
-        final String imageUrl = getIntent().getStringExtra(MainActivity.URL);
+        final String imageUrl = getIntent().getStringExtra(FeedActivity.URL);
 
         description = (EditText) findViewById(R.id.editDescription);
 

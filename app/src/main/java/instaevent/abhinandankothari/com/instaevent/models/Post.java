@@ -13,11 +13,11 @@ public class Post extends ParseObject{
     public static final String DESCRIPTION = "description";
     public static final String IMAGE = "image";
 
-    public ParseFile getImage() {
+    public ParseFile getImage(){
         return getParseFile(IMAGE);
     }
 
-    public String getDescription() {
+    public String getDescription(){
         return getString(DESCRIPTION);
     }
 

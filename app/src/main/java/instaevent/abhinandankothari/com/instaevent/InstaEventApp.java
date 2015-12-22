@@ -3,8 +3,6 @@ package instaevent.abhinandankothari.com.instaevent;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-import com.squareup.picasso.LruCache;
-import com.squareup.picasso.Picasso;
 
 import instaevent.abhinandankothari.com.instaevent.models.Post;
 
@@ -22,13 +20,5 @@ public class InstaEventApp extends android.app.Application {
         if (ParseUser.getCurrentUser() == null) {
             ParseUser.logInInBackground("vjdhama", "test");
         }
-
-        Picasso picasso = new Picasso.Builder(this)
-                .loggingEnabled(true)
-                .indicatorsEnabled(true)
-                .memoryCache(new LruCache(1024 * 1024 * 30))
-                .build();
-
-        Picasso.setSingletonInstance(picasso);
     }
 }

@@ -31,14 +31,14 @@ import java.util.Locale;
 import instaevent.abhinandankothari.com.instaevent.adapters.FeedAdapter;
 import instaevent.abhinandankothari.com.instaevent.models.Post;
 
-public class MainActivity extends AppCompatActivity
+public class FeedActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
-    private static final String MAIN_ACTIVITY = "MainActivity";
     public static final int MEDIA_TYPE_IMAGE = 1;
     private static final String IMAGE_DIRECTORY_NAME = "InstaEvent";
     public static final String URL = "url";
+
     public Uri fileUri;
     private FloatingActionButton fab;
     private Toolbar toolbar;
@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-
 
     final int navigation_drawer_open = R.string.navigation_drawer_open;
     final int navigation_drawer_close = R.string.navigation_drawer_close;
@@ -70,6 +69,7 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
 
         setSupportActionBar(toolbar);
         setDrawerToggle(toolbar, drawer);
