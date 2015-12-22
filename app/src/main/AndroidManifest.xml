@@ -29,7 +29,7 @@
             android:name="CLOUDINARY_URL"
             android:value="cloudinary://529254238611378:qJXmUFVC9tpM8Mdv5Lu_a9DB0MA@nandx64"/>
         <activity
-            android:name=".MainActivity"
+            android:name=".FeedActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
