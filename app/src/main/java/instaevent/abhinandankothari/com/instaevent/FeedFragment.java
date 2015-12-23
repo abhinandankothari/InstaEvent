@@ -44,7 +44,7 @@ public class FeedFragment extends Fragment {
                     Log.e("APP_LOG", "Error while fetching query", e);
             }
         });
-
+        getActivity().setTitle("Feed");
         mAdapter.loadObjects();
         return view;
     }

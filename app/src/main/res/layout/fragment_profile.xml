@@ -3,13 +3,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="instaevent.abhinandankothari.com.instaevent.ProfileFragment">
-
+    <ImageView
+        android:id="@+id/ProfileCover"
+        android:layout_height="200dp"
+        android:layout_width="fill_parent"
+        android:src="@drawable/profile_cover"
+        android:scaleType="matrix"></ImageView>
     <TextView
         android:id="@+id/user_name"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:padding="15dp"
-        android:text="HELLO" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:foregroundGravity="center"
+        android:layout_marginTop="100dp"
+        android:textColor="#25383C"
+        tools:text="Abhinandan Kothari"/>
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:foregroundGravity="center"
+        android:layout_marginTop="120dp"
+        android:layout_below="@+id/user_name"
+        android:textColor="#25383C"
+        tools:text="Bangalore, India"/>
 
 </FrameLayout>
