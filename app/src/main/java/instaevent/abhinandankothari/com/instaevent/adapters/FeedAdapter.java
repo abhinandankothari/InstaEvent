@@ -18,7 +18,8 @@ import instaevent.abhinandankothari.com.instaevent.R;
 /**
  * Created by vjdhama on 21/12/15.
  */
-
+// TODO: Amir - 23/12/15 - format code, remove extra empty lines
+// TODO: Amir - 23/12/15 - optimize and remove warnings
 public class FeedAdapter extends ParseQueryRecyclerViewAdapter<FeedAdapter.ViewHolder, Post> {
 
     private Context context;

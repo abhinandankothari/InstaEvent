@@ -22,10 +22,12 @@ public class Post extends ParseObject{
     }
 
     public void setImage(ParseFile image){
+        // TODO: Amir - 23/12/15 - use constants
         put("image", image);
     }
 
     public void setDescription(String description){
+        // TODO: Amir - 23/12/15 - use constants
         put("description", description);
     }
 }

@@ -36,7 +36,7 @@ public class ImageActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(imageUrl)
                 .into(preview);
-
+        // TODO: Amir - 23/12/15 - presenter pattern with unit test
         Button button = (Button) findViewById(R.id.upload_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +65,7 @@ public class ImageActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         finish();
                     }
-                }.execute(imageUrl,desc);
+                }.execute(imageUrl, desc);
             }
         });
     }

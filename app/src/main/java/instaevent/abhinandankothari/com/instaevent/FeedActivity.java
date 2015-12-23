@@ -25,6 +25,7 @@ import java.util.Locale;
 
 import instaevent.abhinandankothari.com.instaevent.adapters.FeedAdapter;
 
+// TODO: Amir - 23/12/15 - resolve the warnings by IDE
 public class FeedActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -34,8 +35,10 @@ public class FeedActivity extends AppCompatActivity
     public static final String URL = "url";
 
     public Uri fileUri;
+    // TODO: Amir - 23/12/15 - convert to local variable if not used elsewhere in class
     private FloatingActionButton fab;
     private Toolbar toolbar;
+    // TODO: Amir - 23/12/15 - remove unused variables
     private FeedAdapter mAdapter;
 
     private RecyclerView mRecyclerView;
@@ -60,7 +63,7 @@ public class FeedActivity extends AppCompatActivity
         setDrawerToggle(toolbar, drawer);
 
         navigationView.setNavigationItemSelectedListener(this);
-
+        // TODO: Amir - 23/12/15 - use presenter and test capture image
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,7 +88,7 @@ public class FeedActivity extends AppCompatActivity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
+        // TODO: Amir - 23/12/15 - constants ?
         outState.putParcelable("file_uri", fileUri);
     }
 
@@ -106,6 +109,7 @@ public class FeedActivity extends AppCompatActivity
                 startActivity(intent);
 
             } else if (resultCode == RESULT_CANCELED) {
+                // TODO: Amir - 23/12/15 - extract string messages
                 Toast.makeText(this, "You cancelled camera capture", Toast.LENGTH_SHORT);
             } else {
                 Toast.makeText(this, "Image camera capture failed", Toast.LENGTH_SHORT);
