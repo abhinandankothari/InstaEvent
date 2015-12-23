@@ -24,7 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-// TODO: Amir - 23/12/15 - resolve the warnings by IDE
 public class FeedActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -32,6 +31,7 @@ public class FeedActivity extends AppCompatActivity
     public static final int MEDIA_TYPE_IMAGE = 1;
     private static final String IMAGE_DIRECTORY_NAME = "InstaEvent";
     public static final String URL = "url";
+    public static final String FILE_URI = "file_uri";
 
     public Uri fileUri;
 
@@ -48,7 +48,6 @@ public class FeedActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-
 
         setSupportActionBar(toolbar);
         setDrawerToggle(toolbar, drawer);
@@ -80,14 +79,14 @@ public class FeedActivity extends AppCompatActivity
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         // TODO: Amir - 23/12/15 - constants ?
-        outState.putParcelable("file_uri", fileUri);
+        outState.putParcelable(FILE_URI, fileUri);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        fileUri = savedInstanceState.getParcelable("file_uri");
+        fileUri = savedInstanceState.getParcelable(FILE_URI);
     }
 
     @Override
@@ -156,16 +155,21 @@ public class FeedActivity extends AppCompatActivity
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, feed).commit();
                 break;
             case R.id.user_logout:
-                ParseUser.logOut();
-                Intent intent = new Intent(FeedActivity.this,
-                        DispatchLoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                goToLoginActivity();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void goToLoginActivity() {
+        ParseUser.logOut();
+        Intent intent = new Intent(FeedActivity.this,
+                DispatchLoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
     public Uri getOutputMediaFileUri(int type) {
