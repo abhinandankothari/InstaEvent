@@ -25,20 +25,12 @@
             android:title="Whats Near by" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Settings">
         <menu>
             <item
-                android:id="@+id/nav_settings"
+                android:id="@+id/user_logout"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Settings" />
-            <item
-                android:id="@+id/nav_email"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Email" />
-            <item
-                android:id="@+id/nav_license"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Open Source" />
+                android:title="Logout" />
         </menu>
     </item>
 

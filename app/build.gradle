@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "instaevent.abhinandankothari.com.instaevent"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -45,11 +45,18 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:cardview-v7:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
+
+    compile 'com.github.bumptech.glide:glide:3.6.1'
+
     compile 'com.parse.bolts:bolts-android:1.3.0'
     compile 'com.parse:parse-android:1.11.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.github.bumptech.glide:glide:3.6.1'
-    compile 'com.cloudinary:cloudinary-android:1.2.2'
-    compile 'com.cloudinary:cloudinary-core:1.2.2'
+    compile 'com.parse:parseui-login-android:0.0.1'
     compile 'com.parse:parseui-widget-android:0.0.1'
+    compile 'com.parse:parsetwitterutils-android:1.10.3'
+    compile 'com.parse:parsefacebookutils-v4-android:1.10.3@aar'
+
+
+    compile('com.facebook.android:facebook-android-sdk:4.6.0') {
+        exclude group: 'com.parse.bolts', module: 'bolts-android'
+    }
 }
