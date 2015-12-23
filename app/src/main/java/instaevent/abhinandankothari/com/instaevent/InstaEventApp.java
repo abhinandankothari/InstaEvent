@@ -6,6 +6,7 @@ import com.parse.ParseObject;
 import com.parse.ParseTwitterUtils;
 
 import instaevent.abhinandankothari.com.instaevent.models.Post;
+import instaevent.abhinandankothari.com.instaevent.models.User;
 
 /**
  * Created by vjdhama on 16/12/15.
@@ -15,6 +16,7 @@ public class InstaEventApp extends android.app.Application {
     public void onCreate() {
         super.onCreate();
 
+        ParseUser.registerSubclass(User.class);
         ParseObject.registerSubclass(Post.class);
 
         Parse.initialize(this);
