@@ -152,18 +152,19 @@ public class FeedActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        ProfileFragment profile = new ProfileFragment();
-        FeedFragment feed = new FeedFragment();
 
-        if (id == R.id.nav_profile) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, profile).commit();
-        }
-        if (id == R.id.nav_feed) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, feed).commit();
+        switch (id) {
+            case R.id.nav_profile:
+                ProfileFragment profile = new ProfileFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, profile).commit();
+                break;
+            case R.id.nav_feed:
+                FeedFragment feed = new FeedFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, feed).commit();
+                break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
