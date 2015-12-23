@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="instaevent.abhinandankothari.com.instaevent">
+    package="instaevent.abhinandankothari.com.instaevent" >
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,30 +18,51 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <meta-data
-            android:name="com.parse.APPLICATION_ID"
-            android:value="PVFBkqxkLx0Tg3mzBQXnBG9J64JuKJNmdNNSSHBn" />
-        <meta-data
-            android:name="com.parse.CLIENT_KEY"
-            android:value="UTMu7WdcSsYGQWNbdSwHOgf2HCCxi5yy16OHlXdx" />
-        <meta-data
-            android:name="CLOUDINARY_URL"
-            android:value="cloudinary://529254238611378:qJXmUFVC9tpM8Mdv5Lu_a9DB0MA@nandx64"/>
+        android:theme="@style/AppTheme" >
+
         <activity
             android:name=".FeedActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+
+        <activity
+            android:name=".ImageActivity"
+            android:label="@string/title_activity_image"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".DispatchLoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ImageActivity"
-            android:label="@string/title_activity_image"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-    </application>
 
-</manifest>
+        <activity android:name="com.parse.ui.ParseLoginActivity">
+
+            <meta-data
+                android:name="com.parse.ui.ParseLoginActivity.FACEBOOK_LOGIN_ENABLED"
+                android:value="true" />
+            <meta-data
+                android:name="com.parse.ui.ParseLoginActivity.TWITTER_LOGIN_ENABLED"
+                android:value="true" />
+        </activity>
+
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
+
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="@string/parse_app_id" />
+        <meta-data
+            android:name="com.parse.CLIENT_KEY"
+            android:value="@string/parse_client_key" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+    </application>
+ </manifest>

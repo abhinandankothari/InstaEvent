@@ -7,6 +7,12 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_image">ImageActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="parse_app_id">PVFBkqxkLx0Tg3mzBQXnBG9J64JuKJNmdNNSSHBn</string>
+    <string name="parse_client_key">UTMu7WdcSsYGQWNbdSwHOgf2HCCxi5yy16OHlXdx</string>
+    <string name="twitter_consumer_key">7e6FsH4srHsJWI5dxf1Ym1qrd</string>
+    <string name="twitter_consumer_secret">bGndZ7hysptMdurLPq8sYYTYxVWCi4f2oSlEi1H4k04SfnwaEO</string>
+    <string name="facebook_app_id">589634921193624</string>
+
+    <string name="camera_capture_cancelled">You cancelled camera capture</string>
+    <string name="camera_capture_failed">Image camera capture failed</string>
 </resources>

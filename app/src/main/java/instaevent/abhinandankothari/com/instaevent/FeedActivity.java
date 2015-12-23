@@ -11,19 +11,18 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.parse.ParseUser;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import instaevent.abhinandankothari.com.instaevent.adapters.FeedAdapter;
 
 // TODO: Amir - 23/12/15 - resolve the warnings by IDE
 public class FeedActivity extends AppCompatActivity
@@ -35,14 +34,6 @@ public class FeedActivity extends AppCompatActivity
     public static final String URL = "url";
 
     public Uri fileUri;
-    // TODO: Amir - 23/12/15 - convert to local variable if not used elsewhere in class
-    private FloatingActionButton fab;
-    private Toolbar toolbar;
-    // TODO: Amir - 23/12/15 - remove unused variables
-    private FeedAdapter mAdapter;
-
-    private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
 
     final int navigation_drawer_open = R.string.navigation_drawer_open;
     final int navigation_drawer_close = R.string.navigation_drawer_close;
@@ -52,8 +43,8 @@ public class FeedActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -109,10 +100,9 @@ public class FeedActivity extends AppCompatActivity
                 startActivity(intent);
 
             } else if (resultCode == RESULT_CANCELED) {
-                // TODO: Amir - 23/12/15 - extract string messages
-                Toast.makeText(this, "You cancelled camera capture", Toast.LENGTH_SHORT);
+                Toast.makeText(this, R.string.camera_capture_cancelled, Toast.LENGTH_SHORT);
             } else {
-                Toast.makeText(this, "Image camera capture failed", Toast.LENGTH_SHORT);
+                Toast.makeText(this, R.string.camera_capture_failed, Toast.LENGTH_SHORT);
             }
         }
     }
@@ -165,6 +155,13 @@ public class FeedActivity extends AppCompatActivity
                 FeedFragment feed = new FeedFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, feed).commit();
                 break;
+            case R.id.user_logout:
+                ParseUser.logOut();
+                Intent intent = new Intent(FeedActivity.this,
+                        DispatchLoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
