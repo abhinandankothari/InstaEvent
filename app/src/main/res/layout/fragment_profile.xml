@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="instaevent.abhinandankothari.com.instaevent.ProfileFragment">
+    tools:context="instaevent.abhinandankothari.com.instaevent.views.ProfileFragment">
     <ImageView
         android:id="@+id/ProfileCover"
         android:layout_height="200dp"

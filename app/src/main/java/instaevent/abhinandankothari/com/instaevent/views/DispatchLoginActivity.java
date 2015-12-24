@@ -1,4 +1,4 @@
-package instaevent.abhinandankothari.com.instaevent;
+package instaevent.abhinandankothari.com.instaevent.views;
 
 import com.parse.ui.ParseLoginDispatchActivity;
 

@@ -1,4 +1,4 @@
-package instaevent.abhinandankothari.com.instaevent;
+package instaevent.abhinandankothari.com.instaevent.views;
 
 
 import android.os.Bundle;
@@ -14,7 +14,8 @@ import com.parse.ParseQueryAdapter;
 
 import java.util.List;
 
-import instaevent.abhinandankothari.com.instaevent.adapters.FeedAdapter;
+import instaevent.abhinandankothari.com.instaevent.R;
+import instaevent.abhinandankothari.com.instaevent.views.FeedAdapter;
 import instaevent.abhinandankothari.com.instaevent.models.Post;
 
 public class FeedFragment extends Fragment {
