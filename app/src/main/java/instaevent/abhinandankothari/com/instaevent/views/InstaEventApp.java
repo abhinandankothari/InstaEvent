@@ -1,4 +1,4 @@
-package instaevent.abhinandankothari.com.instaevent;
+package instaevent.abhinandankothari.com.instaevent.views;
 
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
@@ -6,6 +6,7 @@ import com.parse.ParseObject;
 import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 
+import instaevent.abhinandankothari.com.instaevent.R;
 import instaevent.abhinandankothari.com.instaevent.models.Post;
 import instaevent.abhinandankothari.com.instaevent.models.User;
 

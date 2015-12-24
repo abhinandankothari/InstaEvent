@@ -1,4 +1,4 @@
-package instaevent.abhinandankothari.com.instaevent;
+package instaevent.abhinandankothari.com.instaevent.views;
 
 
 import android.os.Bundle;
@@ -10,19 +10,20 @@ import android.widget.TextView;
 
 import com.parse.ParseUser;
 
+import instaevent.abhinandankothari.com.instaevent.R;
 import instaevent.abhinandankothari.com.instaevent.models.User;
 
 public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().setTitle("Profile");
         User user = (User) ParseUser.getCurrentUser();
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         TextView userName = (TextView) view.findViewById(R.id.user_name);
         TextView location = (TextView) view.findViewById(R.id.location);
         userName.setText(user.getName());
         location.setText(user.getLocation());
-        getActivity().setTitle("Profile");
         return view;
     }
 }

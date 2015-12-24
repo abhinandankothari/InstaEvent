@@ -13,7 +13,7 @@
         android:required="true" />
 
     <application
-        android:name=".InstaEventApp"
+        android:name=".views.InstaEventApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,17 +21,17 @@
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name=".FeedActivity"
+            android:name=".views.FeedActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
 
         <activity
-            android:name=".ImageActivity"
+            android:name=".views.ImageActivity"
             android:label="@string/title_activity_image"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".DispatchLoginActivity" >
+        <activity android:name=".views.DispatchLoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

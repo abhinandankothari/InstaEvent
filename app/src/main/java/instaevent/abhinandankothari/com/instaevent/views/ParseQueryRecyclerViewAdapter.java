@@ -1,4 +1,4 @@
-package instaevent.abhinandankothari.com.instaevent.adapters;
+package instaevent.abhinandankothari.com.instaevent.views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package instaevent.abhinandankothari.com.instaevent;
+package instaevent.abhinandankothari.com.instaevent.views;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -24,8 +24,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import instaevent.abhinandankothari.com.instaevent.R;
+import instaevent.abhinandankothari.com.instaevent.presenters.FeedPresenter;
+
 public class FeedActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, FeedActivityView {
 
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     public static final int MEDIA_TYPE_IMAGE = 1;
@@ -37,6 +40,8 @@ public class FeedActivity extends AppCompatActivity
 
     final int navigation_drawer_open = R.string.navigation_drawer_open;
     final int navigation_drawer_close = R.string.navigation_drawer_close;
+    FeedPresenter presenter = new FeedPresenter(this);
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +49,7 @@ public class FeedActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -53,19 +58,20 @@ public class FeedActivity extends AppCompatActivity
         setDrawerToggle(toolbar, drawer);
 
         navigationView.setNavigationItemSelectedListener(this);
-        // TODO: Amir - 23/12/15 - use presenter and test capture image
+
+        presenter.configureFabButton();
+
+        showFeedFragment();
+    }
+
+    @Override
+    public void configureFabButton() {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                captureImage();
+                presenter.captureImage();
             }
         });
-
-        FeedFragment feedFragment = new FeedFragment();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.content_frame, feedFragment)
-                .commit();
     }
 
     private void setDrawerToggle(Toolbar toolbar, DrawerLayout drawer) {
@@ -85,7 +91,6 @@ public class FeedActivity extends AppCompatActivity
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-
         fileUri = savedInstanceState.getParcelable(FILE_URI);
     }
 
@@ -106,8 +111,8 @@ public class FeedActivity extends AppCompatActivity
         }
     }
 
-
-    private void captureImage() {
+    @Override
+    public void captureImage() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
@@ -143,26 +148,29 @@ public class FeedActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.nav_profile:
-                ProfileFragment profile = new ProfileFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, profile).commit();
-                break;
-            case R.id.nav_feed:
-                FeedFragment feed = new FeedFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, feed).commit();
-                break;
-            case R.id.user_logout:
-                goToLoginActivity();
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+        return presenter.onNavigationItemSelected(item.getItemId());
     }
 
-    private void goToLoginActivity() {
+    @Override
+    public void closeDrawer() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public void showFeedFragment() {
+        FeedFragment feed = new FeedFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, feed).commit();
+    }
+
+    @Override
+    public void showProfileFragment() {
+        ProfileFragment profile = new ProfileFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, profile).commit();
+    }
+
+    @Override
+    public void gotoLoginActivity() {
         ParseUser.logOut();
         Intent intent = new Intent(FeedActivity.this,
                 DispatchLoginActivity.class);
@@ -172,7 +180,7 @@ public class FeedActivity extends AppCompatActivity
         finish();
     }
 
-    public Uri getOutputMediaFileUri(int type) {
+    private Uri getOutputMediaFileUri(int type) {
         return Uri.fromFile(getOutputMediaFile(type));
     }
 
