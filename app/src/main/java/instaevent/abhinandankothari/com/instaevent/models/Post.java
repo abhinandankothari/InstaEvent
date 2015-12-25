@@ -15,7 +15,7 @@ public class Post extends ParseObject {
     public Post() {
     }
 
-    public Post(ParseUser user, ParseFile image, String description) {
+    public Post(User user, ParseFile image, String description) {
         put(USER, user);
         put(IMAGE, image);
         put(DESCRIPTION, description);
@@ -27,5 +27,9 @@ public class Post extends ParseObject {
 
     public String getDescription() {
         return getString(DESCRIPTION);
+    }
+
+    public User getUser() {
+        return (User) getParseUser(USER);
     }
 }

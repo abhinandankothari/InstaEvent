@@ -20,6 +20,7 @@ import bolts.Continuation;
 import bolts.Task;
 import instaevent.abhinandankothari.com.instaevent.R;
 import instaevent.abhinandankothari.com.instaevent.models.Post;
+import instaevent.abhinandankothari.com.instaevent.models.User;
 
 
 public class ImageActivity extends AppCompatActivity {
@@ -47,7 +48,7 @@ public class ImageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final ProgressDialog progressDialog = ProgressDialog.show(ImageActivity.this, null, "Uploading", true, false);
                 String desc = description.getText().toString();
-                Task.forResult(new Post(ParseUser.getCurrentUser(), new ParseFile(new File(imageUrl)), desc))
+                Task.forResult(new Post((User) ParseUser.getCurrentUser(), new ParseFile(new File(imageUrl)), desc))
                         .onSuccess(new Continuation<Post, Post>() {
                             @Override
                             public Post then(Task<Post> task) throws Exception {
