@@ -75,7 +75,7 @@
             android:id="@+id/txt_likes"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:drawableLeft="@drawable/ic_like"
+            android:drawableLeft="@mipmap/ic_like"
             android:gravity="center_vertical"
             tools:text="16" />
 
