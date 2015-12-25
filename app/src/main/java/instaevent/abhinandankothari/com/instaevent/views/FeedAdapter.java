@@ -56,6 +56,8 @@ public class FeedAdapter extends ParseQueryRecyclerViewAdapter<FeedAdapter.ViewH
         private final TextView userName;
         private final ImageView profileImage;
         private final TextView postTime;
+        private final TextView likeCounts;
+        private final TextView commentCounts;
         public TextView description;
         public ImageView mImageView;
 
@@ -66,6 +68,8 @@ public class FeedAdapter extends ParseQueryRecyclerViewAdapter<FeedAdapter.ViewH
             userName = ((TextView) itemView.findViewById(R.id.txt_name));
             profileImage = ((ImageView) itemView.findViewById(R.id.img_profile));
             postTime = ((TextView) itemView.findViewById(R.id.txt_post_time));
+            likeCounts = ((TextView) itemView.findViewById(R.id.txt_likes));
+            commentCounts = ((TextView) itemView.findViewById(R.id.txt_comments));
         }
 
         private void bindView(Context context, Post item) {
@@ -76,6 +80,8 @@ public class FeedAdapter extends ParseQueryRecyclerViewAdapter<FeedAdapter.ViewH
                     .into(mImageView);
             userName.setText(item.getUser().getName());
             postTime.setText(DateUtils.getRelativeTimeSpanString(item.getCreatedAt().getTime(), System.currentTimeMillis(), MINUTE_IN_MILLIS));
+            likeCounts.setText(Integer.toString(item.getLikeCounts()));
+            commentCounts.setText(Integer.toString(item.getCommentCounts()));
         }
     }
 }
