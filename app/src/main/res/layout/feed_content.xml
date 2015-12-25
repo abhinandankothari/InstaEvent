@@ -41,12 +41,29 @@
             tools:text="3 days ago" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/post_image_preview"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:scaleType="centerCrop"
-        tools:ignore="ContentDescription" />
+        android:layout_height="wrap_content">
+
+        <ToggleButton
+            android:id="@+id/btn_like"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/btn_like"
+            android:button="@null"
+            android:textOff="@null"
+            android:textOn="@null" />
+
+        <ImageView
+            android:id="@+id/post_image_preview"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
