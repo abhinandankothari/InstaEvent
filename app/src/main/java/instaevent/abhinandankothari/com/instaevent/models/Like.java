@@ -8,5 +8,17 @@ import com.parse.ParseObject;
  */
 @ParseClassName("Like")
 public class Like extends ParseObject {
+    public static final String USER = "user";
 
+    @SuppressWarnings("unused - for parse.com")
+    public Like() {
+    }
+
+    public Like(User user) {
+        put(USER, user);
+    }
+
+    public User getUser() {
+        return (User) getParseUser(USER);
+    }
 }

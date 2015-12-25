@@ -52,7 +52,7 @@ public class Post extends ParseObject {
         increment(LIKE_COUNT, -1);
     }
 
-    public ParseRelation<ParseObject> getLikes() {
+    public ParseRelation<Like> getLikes() {
         return getRelation(LIKES);
     }
 }

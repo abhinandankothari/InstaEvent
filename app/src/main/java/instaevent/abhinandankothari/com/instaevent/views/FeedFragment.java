@@ -15,7 +15,6 @@ import com.parse.ParseQueryAdapter;
 import java.util.List;
 
 import instaevent.abhinandankothari.com.instaevent.R;
-import instaevent.abhinandankothari.com.instaevent.views.FeedAdapter;
 import instaevent.abhinandankothari.com.instaevent.models.Post;
 
 public class FeedFragment extends Fragment {
@@ -23,7 +22,7 @@ public class FeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
-        FeedAdapter mAdapter = new FeedAdapter(getActivity().getApplicationContext());
+        FeedAdapter mAdapter = new FeedAdapter(getActivity());
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
 
         RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);

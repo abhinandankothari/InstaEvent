@@ -1,9 +1,12 @@
 package instaevent.abhinandankothari.com.instaevent.views;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +16,18 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import bolts.Continuation;
+import bolts.Task;
 import instaevent.abhinandankothari.com.instaevent.R;
+import instaevent.abhinandankothari.com.instaevent.models.Like;
 import instaevent.abhinandankothari.com.instaevent.models.Post;
 import instaevent.abhinandankothari.com.instaevent.models.User;
 
@@ -94,20 +102,83 @@ public class FeedAdapter extends ParseQueryRecyclerViewAdapter<FeedAdapter.ViewH
             btnLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    long likeCounts = item.getLikeCounts();
-                    if (btnLike.isChecked()) {
-                        item.incrementLikeCount();
-                        ParseRelation<ParseObject> likes = item.getLikes();
-                        likes.add(ParseUser.getCurrentUser());
-                        item.saveInBackground();
-                        ViewHolder.this.likeCounts.setText(Long.toString(likeCounts + 1));
-                    } else {
-                        item.decrementLikeCount();
-                        ParseRelation<ParseObject> likes = item.getLikes();
-                        likes.remove(ParseUser.getCurrentUser());
-                        item.saveInBackground();
-                        ViewHolder.this.likeCounts.setText(Long.toString(likeCounts - 1));
-                    }
+                    final ProgressDialog dialog = ProgressDialog.show(context, null, "Saving", true, false);
+                    Task.forResult(item)
+                            .onSuccess(new Continuation<Post, Post>() {
+                                @Override
+                                public Post then(Task<Post> task) throws Exception {
+                                    if (btnLike.isChecked()) {
+                                        item.incrementLikeCount();
+                                        ParseRelation<Like> likes = item.getLikes();
+                                        Like like = new Like((User) ParseUser.getCurrentUser());
+                                        like.save();
+                                        likes.add(like);
+                                        item.save();
+                                    } else {
+                                        item.decrementLikeCount();
+                                        ParseRelation<Like> likes = item.getLikes();
+                                        Like toRemove = likes.getQuery().whereEqualTo(Like.USER, ParseUser.getCurrentUser()).getFirst();
+                                        likes.remove(toRemove);
+                                        item.save();
+                                        toRemove.delete();
+                                    }
+                                    return null;
+                                }
+                            }, Task.BACKGROUND_EXECUTOR)
+                            .continueWith(new Continuation<Post, Void>() {
+                                @Override
+                                public Void then(Task<Post> task) throws Exception {
+                                    dialog.dismiss();
+                                    if (task.isFaulted()) {
+                                        Log.e("INSTA_APP", "Error while saving like", task.getError());
+                                    }
+                                    long likeCounts = item.getLikeCounts();
+                                    ViewHolder.this.likeCounts.setText(Long.toString(likeCounts));
+                                    return null;
+                                }
+                            }, Task.UI_THREAD_EXECUTOR);
+                }
+            });
+            likeCounts.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final ProgressDialog dialog = ProgressDialog.show(context, null, "Loading", true, false);
+                    Task.forResult(item)
+                            .onSuccess(new Continuation<Post, List<Like>>() {
+                                @Override
+                                public List<Like> then(Task<Post> task) throws Exception {
+                                    Post post = task.getResult();
+                                    ParseRelation<Like> likes = post.getLikes();
+                                    return likes.getQuery().setLimit(25).include(Like.USER).find();
+                                }
+                            }, Task.BACKGROUND_EXECUTOR)
+                            .continueWith(new Continuation<List<Like>, Void>() {
+                                @Override
+                                public Void then(Task<List<Like>> task) throws Exception {
+                                    dialog.dismiss();
+                                    if (task.isFaulted()) {
+                                        Log.e("INSTA_LOG", "Error while fetching likes", task.getError());
+                                        return null;
+                                    }
+
+                                    List<Like> likes = task.getResult();
+                                    ArrayList<String> users = new ArrayList<>();
+                                    for (Like like : likes) {
+                                        users.add(like.getUser().getName());
+                                    }
+                                    new AlertDialog.Builder(context)
+                                            .setTitle("Likes")
+                                            .setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, users), null)
+                                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            })
+                                            .show();
+                                    return null;
+                                }
+                            }, Task.UI_THREAD_EXECUTOR);
                 }
             });
         }
