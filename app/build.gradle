@@ -43,14 +43,18 @@ dependencies {
     testCompile 'io.appium:java-client:3.3.0'
     testCompile 'org.mockito:mockito-core:1.+'
 
+
+
+
+    compile('com.facebook.android:facebook-android-sdk:4.6.0') {
+        exclude group: 'com.parse.bolts', module: 'bolts-android'
+    }
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:support-v4:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:cardview-v7:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
-
     compile 'com.github.bumptech.glide:glide:3.6.1'
-
     compile 'com.parse.bolts:bolts-android:1.3.0'
     compile 'com.parse:parse-android:1.11.0'
     compile 'com.parse:parseui-login-android:0.0.1'
@@ -58,8 +62,4 @@ dependencies {
     compile 'com.parse:parsetwitterutils-android:1.10.3'
     compile 'com.parse:parsefacebookutils-v4-android:1.10.3@aar'
     compile 'de.hdodenhof:circleimageview:2.0.0'
-
-    compile('com.facebook.android:facebook-android-sdk:4.6.0') {
-        exclude group: 'com.parse.bolts', module: 'bolts-android'
-    }
 }
